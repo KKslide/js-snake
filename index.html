@@ -40,3 +40,14 @@
 </html>
 <script src="./util.js"></script>
 <script src="./food.js"></script>
+<script src="./snake.js"></script>
+<script>
+    // 1.默认使用实例对象snake中的this不会出问题
+    //    setInterval(function(){
+    //        snake.move();
+    //    },200);
+    // 2.如果简单写成这样子，实力对象中的this是指向window，这样实例对象snake中的this就没用了
+    // setInterval(snake.move,200);
+    // 3.需要改变this指向
+    // setInterval(snake.move.bind(snake),200);
+</script>
