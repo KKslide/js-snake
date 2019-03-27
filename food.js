@@ -44,5 +44,3 @@
     // 6-暴露给外部使用
     window.Food = Food;
 })(window);
-
-var food = new Food();

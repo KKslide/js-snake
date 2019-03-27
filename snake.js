@@ -102,11 +102,9 @@
         }
         // 4-3.同步页面元素
         this.elements[0].style.left = this.body[0].x + 'px';
-        this.elements[0].style.tpo = this.body[0].y + 'px';
+        this.elements[0].style.top = this.body[0].y + 'px';
     }
     // 5.暴露方向(Direction)和蛇元素(Snake)
     window.Direction = Direction;
     window.Snake = Snake;
 }(window);
-
-let snake = new Snake();
