@@ -14,6 +14,9 @@
 
     var document = window.document,
         map = document.querySelector("#map"),
+        timer = null,
+        isStart = true,
+        score = 0,
         Direction = Object.create(Object.prototype, {
             TOP: {
                 value: 0
@@ -65,6 +68,7 @@
         FoodElement.style.position = 'absolute';
         FoodElement.style.left = this.x + 'px';
         FoodElement.style.top = this.y + 'px';
+        FoodElement.style.transition = 'all .5s linear';
         // 4-加入页面中
         map.appendChild(FoodElement);
         // 5-关联元素和食物，挂载在Food构造函数上
@@ -72,7 +76,10 @@
     }
     // 吃到食物后，原本食物从视图中移除
     Food.prototype.remove = function (map) {
-        map.removeChild(this.element);
+        this.element.className='fade';
+        setTimeout(() => {
+            map.removeChild(this.element);
+        }, 500);
     }
 
     function Snake(width, height, direction) {
@@ -113,6 +120,7 @@
             div.style.width = this.width + 'px';
             div.style.height = this.height + 'px';
             div.style.backgroundColor = _body.color;
+            div.style.transition = 'all .2s linear';
             // 3-3.设置蛇身定位
             div.style.position = "absolute";
             div.style.left = _body.x + 'px';
@@ -193,7 +201,7 @@
     // 1.开始游戏
     Game.prototype.start = function () {
         // var _this = this;
-        var timer = setInterval(() => {
+        timer = setInterval(() => {
             this.snake.move();
             // 1-1.判断蛇是否超出边界
             var head = this.snake.body[0];
@@ -218,6 +226,7 @@
                 this.food.remove(this.map); // 清除食物
                 this.snake.growth(this.map); // 蛇增长一格子
                 this.food = new Food(); // 生成新的食物
+                score++;
             }
         }, 200);
     }
@@ -241,8 +250,16 @@
                 case 40:
                     this.snake.direction = Direction.BOTTOM
                     break;
+                case 32:
+                    isStart ? this.pause() : this.start();
+                    isStart = !isStart;
+                    break;
             }
         })
+    }
+    // 3.暂停操作
+    Game.prototype.pause = function () {
+        clearInterval(timer);
     }
 
     window.Game = Game;
