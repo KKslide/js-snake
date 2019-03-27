@@ -43,6 +43,20 @@
                 clearInterval(timer);
                 alert('GAME OVER!');
             }
+            // 1-2.蛇碰到自己身体的逻辑
+            for (var i = 1; i < this.snake.body.length; i++) {
+                var currentBody = this.snake.body[i];
+                if (currentBody.x == head.x && currentBody.y == head.y) {
+                    clearInterval(timer);
+                    alert('GAME OVER!');
+                }
+            }
+            // 1-3.蛇吃到食物的逻辑
+            if (head.x === this.food.x && head.y === this.food.y) {
+                this.food.remove(this.map); // 清除食物
+                this.snake.growth(this.map); // 蛇增长一格子
+                this.food = new Food(); // 生成新的食物
+            }
         }, 200);
     }
     // 2.操作控制

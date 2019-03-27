@@ -41,6 +41,11 @@
         this.element = FoodElement;
     }
 
+    // 吃到食物后，原本食物从视图中移除
+    Food.prototype.remove=function (map) {
+        map.removeChild(this.element);
+    }
+
     // 6-暴露给外部使用
     window.Food = Food;
 })(window);

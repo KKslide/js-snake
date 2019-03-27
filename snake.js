@@ -34,7 +34,8 @@
         this.body[0] = {
             x: 60,
             y: 20,
-            color: 'pink'
+            color: 'pink',
+            zindex: 99
         };
         this.body[1] = {
             x: 40,
@@ -65,6 +66,7 @@
             div.style.position = "absolute";
             div.style.left = _body.x + 'px';
             div.style.top = _body.y + 'px';
+            div.style.zIndex = _body.zindex ? _body.zindex : 1;
             // 3-4.将蛇追加到页面中
             map.appendChild(div);
             // 3-5.每次创建一个蛇身元素 就追加进body数组中 方便后期调用
@@ -104,7 +106,28 @@
         this.elements[0].style.left = this.body[0].x + 'px';
         this.elements[0].style.top = this.body[0].y + 'px';
     }
-    // 5.暴露方向(Direction)和蛇元素(Snake)
+
+    // 5.蛇吃到食物变长的逻辑
+    Snake.prototype.growth = function (map) {
+        // 5-1.新生的身体部分和最后一个格子的属性一模一样
+        var lastBody = this.body[this.body.length - 1];
+        var lastBodyObj = {
+            x: lastBody.x,
+            y: lastBody.y,
+            color: lastBody.color
+        }
+        this.body.push(lastBodyObj); // 将这新增的部分同部到body元素中
+        var div = document.createElement("div");
+        div.style.width = this.width + 'px';
+        div.style.height = this.height + 'px';
+        div.style.backgroundColor = lastBodyObj.color;
+        div.style.position = 'absolute';
+        div.style.left = lastBody.x + 'px';
+        div.style.top = lastBody.y + 'px';
+        map.appendChild(div); // 更新视图
+        this.elements.push(div); // 同部到dom元素数组中
+    }
+    // 6.暴露方向(Direction)和蛇元素(Snake)
     window.Direction = Direction;
     window.Snake = Snake;
 }(window);
